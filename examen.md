@@ -77,3 +77,40 @@ Extiende el proyecto para soportar dislikes sin romper la separación entre domi
 8. Con `mvn test`.
 9. La condición `if: github.event_name == 'push' && github.ref == 'refs/heads/main'`.
 10. `AZURE_WEBAPP_NAME` y `AZURE_WEBAPP_PUBLISH_PROFILE`.
+
+## Respuestas sugeridas para leer en voz alta
+
+### Guion oral de respuestas teóricas
+
+1. "Java 17 es una buena elección porque es una versión LTS, es decir, de soporte prolongado. Eso la hace estable para proyectos backend y además es totalmente compatible con versiones modernas de Spring Boot."
+2. "Maven en este proyecto se usa para administrar dependencias, compilar el código, ejecutar pruebas y generar el artefacto final que luego se despliega."
+3. "Spring Boot resuelve la complejidad de configuración inicial. Nos permite arrancar rápido una API REST con servidor embebido, inyección de dependencias y convenciones listas para usar."
+4. "Una API REST es una forma de exponer funcionalidades del sistema usando HTTP y recursos bien definidos. En este proyecto, el recurso principal es el contador de likes."
+5. "Un endpoint es una ruta concreta de la API. Por ejemplo, `GET /likes` consulta el total y `POST /likes` registra un nuevo like."
+6. "Que H2 sea embebida significa que no necesito instalar un motor externo para empezar a trabajar. Es ideal para pruebas técnicas porque simplifica mucho el entorno."
+7. "DDD significa Domain-Driven Design. En este proyecto el dominio es la gestión del contador de likes, es decir, la lógica de negocio asociada a registrar y consultar likes."
+8. "Una entidad de dominio es un objeto que tiene identidad y comportamiento. Aquí la entidad principal es `LikeCounter`, porque representa el contador y define cómo se incrementa."
+9. "La arquitectura hexagonal busca aislar la lógica de negocio del resto del mundo. Para eso usa puertos y adaptadores, de manera que el dominio no dependa ni de la base de datos ni del framework web."
+10. "El puerto de entrada representa lo que el sistema ofrece, por ejemplo registrar un like. El puerto de salida representa lo que el sistema necesita de afuera, por ejemplo guardar o leer el contador desde la base de datos."
+11. "Conviene que el dominio no dependa de Spring ni de JPA para mantenerlo limpio, testeable y fácil de evolucionar. Así la lógica de negocio no queda amarrada a una tecnología específica."
+12. "Un test con MockMvc valida el comportamiento HTTP real del endpoint. Comprueba rutas, códigos de estado y respuestas JSON sin necesidad de levantar manualmente un servidor externo."
+13. "CI significa integración continua. Es el proceso de compilar y probar automáticamente cada cambio para detectar errores lo antes posible."
+14. "CD significa entrega o despliegue continuo. En este caso, después de validar el build y los tests, la aplicación puede desplegarse a Azure."
+15. "El despliegue debe ocurrir solo al integrar a `main` porque esa rama representa la versión estable e integrada del sistema. Así evitamos desplegar trabajo incompleto desde ramas feature."
+
+### Guion oral de respuestas prácticas
+
+1. "Si ejecuto `GET /likes` al inicio, espero recibir un JSON con `count` en cero, porque todavía no se ha registrado ningún like."
+2. "Si hago tres llamadas a `POST /likes`, el contador debe incrementarse en uno cada vez. Al final, al consultar `GET /likes`, el total debería ser tres."
+3. "En la consola H2 debo buscar la tabla `LIKE_COUNTER`, que es donde se persiste el identificador del contador y el valor acumulado."
+4. "La clase que actúa como puerto de salida implementado hacia persistencia es `LikeCounterPersistenceAdapter`, porque conecta el caso de uso con JPA y H2."
+5. "La clase que implementa el caso de uso es `LikeCounterService`, porque orquesta cargar el contador, incrementarlo y volverlo a guardar."
+6. "Para cambiar el mensaje de `POST /likes`, puedo modificar la respuesta construida en el controlador o ajustar el DTO de respuesta si quiero cambiar también el contrato."
+7. "El endpoint `GET /hello` ya existe en `HealthController` y sirve como verificación básica de que la API está viva."
+8. "Los tests se ejecutan con Maven usando `mvn test`, y eso valida tanto el contexto Spring como el caso de uso y los endpoints."
+9. "La condición que evita desplegar desde una rama feature está en el workflow y exige que el evento sea `push` sobre `refs/heads/main`."
+10. "Los secrets necesarios para Azure son el nombre de la Web App y el publish profile. En este proyecto se usan `AZURE_WEBAPP_NAME` y `AZURE_WEBAPP_PUBLISH_PROFILE`."
+
+### Guion oral del ejercicio integrador
+
+"Si quisiera agregar dislikes, lo primero sería extender el dominio para modelar esa nueva regla de negocio sin mezclarla con infraestructura. Luego ampliaría la API con endpoints claros para registrar y consultar dislikes. Después ajustaría persistencia para guardar ambos contadores, actualizaría los tests para cubrir el nuevo comportamiento y revisaría el pipeline para asegurar que build, pruebas y despliegue sigan funcionando sin cambios manuales inesperados."
