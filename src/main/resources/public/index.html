@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LikeCounterAPI | OpenAPI</title>
+    <style>
+        :root {
+            --bg: #f5f1e8;
+            --card: #fffaf0;
+            --text: #1f2937;
+            --accent: #b45309;
+            --accent-dark: #7c2d12;
+            --border: #e5d6bf;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Georgia, "Times New Roman", serif;
+            background:
+                radial-gradient(circle at top left, rgba(180, 83, 9, 0.18), transparent 25%),
+                linear-gradient(135deg, var(--bg), #fef7ed);
+            color: var(--text);
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 24px;
+        }
+
+        .panel {
+            width: min(760px, 100%);
+            background: rgba(255, 250, 240, 0.92);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 32px;
+            box-shadow: 0 24px 60px rgba(124, 45, 18, 0.12);
+        }
+
+        h1 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            color: var(--accent-dark);
+        }
+
+        p {
+            line-height: 1.6;
+            margin-bottom: 18px;
+        }
+
+        .links {
+            display: grid;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        a {
+            display: block;
+            text-decoration: none;
+            color: var(--accent-dark);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 18px;
+            transition: transform 160ms ease, box-shadow 160ms ease;
+        }
+
+        a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 24px rgba(180, 83, 9, 0.14);
+        }
+
+        .hint {
+            font-size: 0.95rem;
+            color: #57534e;
+        }
+    </style>
+</head>
+<body>
+<main class="panel">
+    <h1>LikeCounterAPI</h1>
+    <p>Esta es la página pública del proyecto. Desde aquí puedes abrir la documentación Swagger UI, consultar el contrato OpenAPI en JSON y probar los endpoints principales del caso de uso <strong>Like</strong>.</p>
+
+    <div class="links">
+        <a href="/swagger-ui.html">Abrir Swagger UI</a>
+        <a href="/api-docs">Ver OpenAPI JSON</a>
+        <a href="/likes">Probar GET /likes</a>
+        <a href="/actuator/health">Ver health endpoint</a>
+    </div>
+
+    <p class="hint">La documentación se genera automáticamente desde anotaciones OpenAPI en controladores, DTOs y configuración global.</p>
+</main>
+</body>
+</html>
