@@ -103,6 +103,7 @@ El workflow está en `.github/workflows/ci-cd.yml`.
 - En `push` a `main` ejecuta build, tests y despliegue.
 - El despliegue no ocurre en ramas feature, lo que reduce riesgo y mantiene `main` como fuente desplegable.
 - El workflow fuerza la ejecución de acciones JavaScript sobre Node 24 para adelantarse a la migración anunciada por GitHub Actions.
+- El despliegue final ya no usa `azure/webapps-deploy` porque esa action sigue declarando runtime `node20`; en su lugar se usa el Kudu Publish API de App Service con el mismo `publish profile`.
 
 ## Azure
 

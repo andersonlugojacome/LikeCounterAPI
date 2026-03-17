@@ -106,6 +106,10 @@ Secrets necesarios:
 - `AZURE_WEBAPP_NAME`
 - `AZURE_WEBAPP_PUBLISH_PROFILE`
 
+### Nota sobre la advertencia de Node 20
+
+Aunque `actions/checkout` y `actions/setup-java` ya tienen líneas compatibles con Node 24, la action `azure/webapps-deploy` todavía publica una versión que declara `node20` como runtime. Para evitar ese warning, el workflow de este proyecto despliega con el Kudu Publish API usando el `publish profile` del App Service, que además está soportado por la documentación oficial de Microsoft para artefactos JAR.
+
 ## Relación entre todas las piezas
 
 El flujo completo es:

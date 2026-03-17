@@ -53,9 +53,62 @@ jobs:
       - name: Package application
         run: mvn clean package -DskipTests
 
-      - name: Deploy to Azure Web App
-        uses: azure/webapps-deploy@v3
-        with:
-          app-name: ${{ secrets.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          package: target/*.jar
+      - name: Deploy to Azure Web App via Kudu Publish API
+        env:
+          AZURE_WEBAPP_PUBLISH_PROFILE: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        run: |
+          # Kudu publish API es el mecanismo recomendado por Microsoft
+          # para publicar artefactos JAR/WAR/EAR en App Service.
+          python <<'PY'
+          import glob
+          import os
+          import subprocess
+          import xml.etree.ElementTree as ET
+
+          publish_profile = os.environ["AZURE_WEBAPP_PUBLISH_PROFILE"]
+          root = ET.fromstring(publish_profile)
+          profiles = root.findall(".//publishProfile")
+
+          if not profiles:
+              raise SystemExit("No se encontró ningún publishProfile en el secret AZURE_WEBAPP_PUBLISH_PROFILE.")
+
+          profile = next(
+              (item for item in profiles if ".scm." in item.attrib.get("publishUrl", "")),
+              profiles[0]
+          )
+
+          publish_url = profile.attrib["publishUrl"]
+          if not publish_url.startswith(("http://", "https://")):
+              publish_url = f"https://{publish_url}"
+
+          host = publish_url.split("://", 1)[1].split("/", 1)[0]
+          deploy_url = f"https://{host}/api/publish?type=jar&clean=true&restart=true"
+
+          username = profile.attrib["userName"]
+          password = profile.attrib["userPWD"]
+
+          print(f"::add-mask::{username}")
+          print(f"::add-mask::{password}")
+
+          jars = [path for path in glob.glob("target/*.jar") if not path.endswith(".original")]
+          if not jars:
+              raise SystemExit("No se encontró ningún JAR desplegable en target/.")
+
+          artifact = sorted(jars)[0]
+          print(f"Deploying artifact: {artifact}")
+
+          subprocess.run(
+              [
+                  "curl",
+                  "--fail-with-body",
+                  "-X",
+                  "POST",
+                  "-u",
+                  f"{username}:{password}",
+                  "-T",
+                  artifact,
+                  deploy_url,
+              ],
+              check=True,
+          )
+          PY
