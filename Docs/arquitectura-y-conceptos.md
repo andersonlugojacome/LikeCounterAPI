@@ -62,6 +62,15 @@ Arquitectura hexagonal significa aislar el núcleo del negocio y permitir que el
 
 La dependencia va de afuera hacia adentro. El dominio no conoce REST, ni JPA, ni Spring.
 
+## Diagramas
+
+Para complementar la explicación, en `Docs` quedaron dos diagramas en Mermaid:
+
+- `diagrama-flujo-like.md`: flujo del caso de uso `Like`
+- `diagrama-clases-like.md`: vista de clases y relaciones principales
+
+Estos diagramas sirven para estudiar el recorrido de una petición y entender cómo se conectan dominio, aplicación e infraestructura.
+
 ## H2
 
 H2 es una base de datos ligera, ideal para demos y pruebas técnicas porque no requiere instalar un servidor separado. En desarrollo se usa en memoria. En perfil `prod` se configuró en modo archivo para conservar datos entre reinicios locales sencillos.
