@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
         ),
         servers = {
                 @Server(url = "http://localhost:8080", description = "Entorno local"),
-                @Server(url = "https://<tu-app>.azurewebsites.net", description = "Entorno Azure Web App")
+                @Server(url = "https://likecounterapi-a6c9gvanf9aectbt.eastus2-01.azurewebsites.net", description = "Entorno Azure Web App")
         }
 )
 public class OpenApiConfig {
