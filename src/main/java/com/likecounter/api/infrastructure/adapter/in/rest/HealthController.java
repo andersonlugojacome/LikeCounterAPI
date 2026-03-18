@@ -13,7 +13,7 @@ public class HealthController {
 
     @GetMapping("/hello")
     @Operation(
-            summary = "Saludo básico",
+            summary = "Hola Mundo",
             description = "Endpoint simple para comprobar que la API está respondiendo."
     )
     public Map<String, String> hello() {
